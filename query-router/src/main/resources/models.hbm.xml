@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="vault.queryrouter.models.Query" table="Query">
+        <id name="queryId" column="id" type="java.lang.String">
+        </id>
+        <property name="startTime" column="start_time" type="java.sql.Timestamp"/>
+        <property name="endTime" column="end_time" type="java.sql.Timestamp"/>
+        <property name="commandType" column="command_type" type="java.lang.String"/>
+        <property name="queryBody" column="query_body" type="java.lang.String"/>
+        <property name="userId" column="user_id" type="java.lang.Integer"/>
+        <property name="tenantMppdbId" column="tenant_mppdb_id" type="java.lang.Integer"/>
+        <property name="queryStatus" column="query_status" type="java.lang.String"/>
+        <property name="mppdbId" column="mppdb_id" type="java.lang.String"/>
+        <property name="connectionId" column="connection_id" type="java.lang.String"/>
+        <property name="errorMessage" column="error_message" type="java.lang.String"/>
+    </class>
+
+    <class name="vault.queryrouter.models.TenantMPPDBGroup" table="TenantMPPDBGroup">
+        <id name="tenantMppdbGroupId" type="int" column="tenant_mppdb_group_id">
+            <generator class="native"/>
+        </id>
+        <property name="groupSize" column="group_size" type="integer"/>
+        <property name="formationTime" column="formation_time" type="java.sql.Timestamp"/>
+        <property name="nodeQuantity" column="node_quantity" type="integer"/>
+    </class>
+
+    <class name="vault.queryrouter.models.MPPDB" table="MPPDB">
+        <id name="mppdbId" type="java.lang.String" column="mppdb_id">
+            <generator class="native"/>
+        </id>
+        <property name="mppdbIp" column="mppdb_ip" type="java.lang.String"/>
+        <property name="tenantMppdbGroupId" column="tenant_mppdb_group_id" type="java.lang.Integer"/>
+    </class>
+
+    <class name="vault.queryrouter.models.TenantMPPDB" table="TenantMPPDB">
+        <id name="tenantMppdbId" type="int" column="tenant_mppdb_id">
+            <generator class="native"/>
+        </id>
+        <property name="tenantMppdbGroupId" column="tenant_mppdb_group_id" type="java.lang.Integer"/>
+        <property name="requestNodeQuantity" column="request_node_quantity" type="java.lang.Integer"/>
+        <property name="flavor" column="flavor" type="java.lang.String"/>
+        <property name="tenantId" column="tenant_id" type="java.lang.String"/>
+        <property name="tenantMppdbName" column="tenant_mppdb_name" type="java.lang.String"/>
+    </class>
+
+    <class name="vault.queryrouter.models.User" table="User">
+        <id name="userId" type="int" column="user_id">
+            <generator class="native"/>
+        </id>
+        <property name="userName" column="user_name" type="java.lang.String"/>
+        <property name="userRole" column="user_role" type="java.lang.String"/>
+        <property name="password" column="password" type="java.lang.String"/>
+        <property name="tenantMppdbId" column="tenant_mppdb_id" type="java.lang.Integer"/>
+    </class>
+
+    <class name="vault.queryrouter.models.TenantUpdateJob" table="JobQueue">
+        <id name="jobQueueId" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="action" column="action" type="java.lang.String"/>
+        <property name="status" column="status" type="java.lang.String"/>
+        <property name="queryId" column="query_id" type="java.lang.String"/>
+        <property name="connectionId" column="connection_id" type="java.lang.String"/>
+        <property name="workerId" column="worker_id" type="java.lang.String"/>
+        <property name="tenantMppdbId" column="tenant_mppdb_id" type="java.lang.Integer"/>
+        <property name="lastTouchTime" generated="always" not-null="true">
+            <column name="last_touch_timestamp" sql-type="timestamp" default="ON UPDATE CURRENT_TIMESTAMP"/>
+        </property>
+        <property name="type" not-null="true"/>
+
+    </class>
+</hibernate-mapping>
